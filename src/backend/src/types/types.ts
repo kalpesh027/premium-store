@@ -11,9 +11,37 @@ export interface NewUserRequestBody {
 
 export interface NewProductRequestBody {
   name: string;
+  description: string;
   category: string;
+  subcategory?: string[];
   price: number;
+  salePrice?: number;
   stock: number;
+  variants?: Variant[];
+  shipping?: Shipping;
+  returnPolicy?: ReturnPolicy;
+}
+
+// Supporting types for NewProductRequestBody
+export interface Variant {
+  color: {
+    name: string;
+    code: string;
+  };
+  sizes: {
+    size: "XS" | "S" | "M" | "L" | "XL";
+    stock: number;
+  }[];
+}
+
+export interface Shipping {
+  freeShipping: boolean;
+  deliveryTime?: string;
+}
+
+export interface ReturnPolicy {
+  allowed: boolean;
+  daysLimit: number; 
 }
 
 export type ControllerType = (
@@ -26,7 +54,8 @@ export type ControllerType = (
 export type SearchRequestQuery = {
   search?: string;
   price?: string;
-  category?: string;
+  category?: string; 
+  subcategory?: string;
   sort?: string;
   page?: string;
 };
@@ -38,6 +67,9 @@ export interface BaseQuery {
   };
   price?: { $lte: number };
   category?: string;
+  subcategory?: {
+    $in: string[]; 
+  };
 }
 
 export type InvalidateCacheProps = {
