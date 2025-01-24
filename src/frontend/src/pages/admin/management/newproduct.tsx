@@ -1,6 +1,5 @@
-import { Upload, X, Plus, Minus } from "lucide-react"
-import type React from "react"
-import { type FormEvent, useRef, useState } from "react"
+import {X, Plus, Minus } from "lucide-react"
+import { type FormEvent, useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import AdminSidebar from "../../../components/admin/AdminSidebar"
@@ -38,25 +37,9 @@ const NewProduct = () => {
 
   const [newProduct] = useNewProductMutation()
   const navigate = useNavigate()
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || [])
-    const newPhotos = [...photos, ...files].slice(0, 5)
-    setPhotos(newPhotos)
-
-    const newPreviews = newPhotos.map((file) => URL.createObjectURL(file))
-    setPreviews(newPreviews)
-  }
-
-  const handleRemovePhoto = (index: number) => {
-    const newPhotos = photos.filter((_, i) => i !== index)
-    setPhotos(newPhotos)
-
-    const newPreviews = previews.filter((_, i) => i !== index)
-    setPreviews(newPreviews)
-  }
-
+  
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (isLoading) return
